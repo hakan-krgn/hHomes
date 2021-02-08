@@ -1,0 +1,7 @@
+name: 'hHomes'
+author: 'Hakan Kargın'
+version: 1.0.0
+main: com.hakan.homes.HomePlugin
+commands:
+  home:
+    aliases: [ hhome , homes ]

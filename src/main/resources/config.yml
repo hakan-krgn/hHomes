@@ -1,0 +1,189 @@
+settings:
+
+  teleporting-title: '&6Teleporting'
+  teleporting-subtitle: '&7Please wait &e%sec% &7seconds'
+
+  teleported-title: '&2Succesfully teleported'
+  teleported-subtitle: '&7You succesfully teleported to &a%name%'
+
+  teleport-cancel-title: '&4Teleport cancelled'
+  teleport-cancel-subtitle: '&cTeleport is canceled because you are moving'
+
+  home-set-title: '&2Home Setted'
+  home-set-subtitle: '&7Home named &a%name% &7is setted at &a%x%&7, &a%y%&7, &a%z%'
+
+  home-delete-title: '&4Home Deleted'
+  home-delete-subtitle: '&7Home named &c%name% &7is deleted'
+
+  home-rename-title: '&bHome Renamed'
+  home-rename-subtitle: '&7Your name of home changed to &3%name%'
+
+  home-transport-title: '&bHome Transported'
+  home-transport-subtitle: '&7Your location of home changed to &3%x%&7, &3%y%&7, &3%z%'
+
+  teleport-times:
+    default: 5
+    vip: 3
+    vip+: 2
+    others: 5
+  max-home:
+    default: 1
+    vip: 2
+    vip+: 3
+    others: 1
+  sethome-money:
+    default: 5000
+    vip: 2000
+    vip+: 100
+    others: 5000
+
+messages:
+  there-is-home-this-name: '&cThere is a home this name.'
+  maximum-purchaseable-home: '&cYour home count can not over %count%.'
+
+gui-main:
+  title: 'Home System'
+  size: 1
+  items:
+    home-list-item:
+      type: 'SKULL_ITEM'
+      name: '&2Home List'
+      glow: false
+      amount: 1
+      datavalue: 3
+      lore:
+        - ''
+        - '&aYour homes'
+      nbt: '{SkullOwner:{Id:"7db0de46-0c0a-4e23-b00f-3bd851839481",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzc0MTBjMDdiZmJiNDE0NTAwNGJmOTE4YzhkNjMwMWJkOTdjZTEzMjcwY2UxZjIyMWQ5YWFiZWUxYWZkNTJhMyJ9fX0="}]}}}'
+      slot: 3
+    home-create-item:
+      type: 'SKULL_ITEM'
+      name: '&2Home Create'
+      glow: false
+      amount: 1
+      datavalue: 3
+      lore:
+        - ''
+        - '&aClick and create'
+        - '&aa home at your location.'
+      nbt: '{SkullOwner:{Id:"a18f6c08-2311-4f8c-a69c-2563148a74f3",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjA1NmJjMTI0NGZjZmY5OTM0NGYxMmFiYTQyYWMyM2ZlZTZlZjZlMzM1MWQyN2QyNzNjMTU3MjUzMWYifX19"}]}}}'
+      slot: 5
+
+gui-homelist:
+  title: 'Home List'
+  size: 6
+  items:
+    back:
+      type: 'BARRIER'
+      name: '&cBack'
+      glow: false
+      amount: 1
+      datavalue: 0
+      lore: [ ]
+      nbt: '{}'
+      slot: 49
+    next-page:
+      type: 'ARROW'
+      name: '&aNext Page'
+      glow: false
+      amount: 1
+      datavalue: 0
+      lore: [ ]
+      nbt: '{}'
+      slot: 50
+    previous-page:
+      type: 'ARROW'
+      name: '&cPrevious Page'
+      glow: false
+      amount: 1
+      datavalue: 0
+      lore: [ ]
+      nbt: '{}'
+      slot: 48
+    home-item:
+      type: 'SKULL_ITEM'
+      name: '&2%name%'
+      glow: false
+      amount: 1
+      datavalue: 3
+      lore:
+        - ''
+        - 'Location » %x%, %y%, %z%'
+        - ''
+        - 'Left click for teleport'
+        - 'Right click for home settings'
+      nbt: '{SkullOwner:{Id:"7db0de46-0c0a-4e23-b00f-3bd851839481",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzc0MTBjMDdiZmJiNDE0NTAwNGJmOTE4YzhkNjMwMWJkOTdjZTEzMjcwY2UxZjIyMWQ5YWFiZWUxYWZkNTJhMyJ9fX0="}]}}}'
+      slots:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+        - 10
+        - 11
+        - 12
+        - 13
+        - 14
+        - 15
+        - 16
+        - 17
+
+gui-create-home:
+  title: 'Create a home!'
+  size: 1
+  items:
+    house-item:
+      type: 'SKULL_ITEM'
+      name: 'Type home name...'
+      glow: false
+      amount: 1
+      datavalue: 3
+      lore: [ ]
+      nbt: '{SkullOwner:{Id:"7db0de46-0c0a-4e23-b00f-3bd851839481",Properties:{textures:[{Value:"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzc0MTBjMDdiZmJiNDE0NTAwNGJmOTE4YzhkNjMwMWJkOTdjZTEzMjcwY2UxZjIyMWQ5YWFiZWUxYWZkNTJhMyJ9fX0="}]}}}'
+      slot: 0
+
+gui-home-settings:
+  title: 'Home > %name%'
+  size: 4
+  items:
+    rename:
+      type: 'PAPER'
+      name: '&cRename the home'
+      glow: false
+      amount: 1
+      datavalue: 0
+      lore: [ ]
+      nbt: '{}'
+      slot: 11
+    transport:
+      type: 'FIREWORK'
+      name: '&cTransport the home'
+      glow: false
+      amount: 1
+      datavalue: 0
+      lore: [ ]
+      nbt: '{}'
+      slot: 13
+    delete:
+      type: 'REDSTONE'
+      name: '&cDelete the home'
+      glow: true
+      amount: 1
+      datavalue: 0
+      lore: [ ]
+      nbt: '{}'
+      slot: 15
+    back:
+      type: 'BARRIER'
+      name: '&cBack'
+      glow: false
+      amount: 1
+      datavalue: 0
+      lore: [ ]
+      nbt: '{}'
+      slot: 31

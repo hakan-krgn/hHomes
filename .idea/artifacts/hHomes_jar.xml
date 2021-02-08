@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="hHomes:jar">
+    <output-path>$PROJECT_DIR$/../../../Minecraft [server-MC]/Plugin 1.16/plugins</output-path>
+    <root id="archive" name="hHomes.jar">
+      <element id="module-output" name="hHomes" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/hakan/MessageAPI/1.0.0/MessageAPI-1.0.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/hakan/InventoryAPI/1.0.0/InventoryAPI-1.0.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/hakan/ItemBuilder/1.0.0/ItemBuilder-1.0.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/net/wesjd/anvilgui/1.4.0-SNAPSHOT/anvilgui-1.4.0-SNAPSHOT.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
