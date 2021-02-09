@@ -5,7 +5,6 @@ import com.hakan.homes.HomePlugin;
 import com.hakan.homes.PlayerData;
 import com.hakan.homes.utils.HomeSettings;
 import com.hakan.homes.utils.LocationSerializer;
-import com.hakan.homes.utils.PlaySound;
 import com.hakan.homes.utils.Utils;
 import com.hakan.homes.utils.yaml.Yaml;
 import com.hakan.messageplugin.api.MessageAPI;
@@ -100,7 +99,6 @@ public class HomeAPI {
 
             public void run() {
                 if (x != player.getLocation().getBlockX() || y != player.getLocation().getBlockY() || z != player.getLocation().getBlockZ()) {
-                    PlaySound.playVillagerNo(player);
                     String title = Utils.getText(config, "settings.teleport-cancel-title");
                     String subtitle = Utils.getText(config, "settings.teleport-cancel-subtitle");
                     MessageAPI.getTitleAPI().getTitleManager().setTitle(title).setSubtitle(subtitle).setFadeIn(0).setFadeOut(5).setStay(60).create().send(player);
@@ -109,7 +107,6 @@ public class HomeAPI {
                     return;
                 }
                 if (counter == teleportTime) {
-                    PlaySound.playExperienceOrb(player);
                     String title = Utils.getText(config, "settings.teleported-title").replace("%name%", home.getHomeName());
                     String subtitle = Utils.getText(config, "settings.teleported-subtitle").replace("%name%", home.getHomeName());
                     MessageAPI.getTitleAPI().getTitleManager().setTitle(title).setSubtitle(subtitle).setFadeIn(0).setFadeOut(5).setStay(60).create().send(player);

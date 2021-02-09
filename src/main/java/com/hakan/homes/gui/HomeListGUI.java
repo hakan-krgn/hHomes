@@ -56,6 +56,9 @@ public class HomeListGUI {
                         HomeAPI.getInstance().teleport(player, home, isTeleported -> {
                             if (isTeleported) {
                                 player.teleport(home.getLocation());
+                                PlaySound.playExperienceOrb(player);
+                            } else {
+                                PlaySound.playVillagerNo(player);
                             }
                             HomeSettings.useHomeCommand.remove(player.getName());
                         });
