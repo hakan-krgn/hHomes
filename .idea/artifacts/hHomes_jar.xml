@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="hHomes:jar">
-    <output-path>$PROJECT_DIR$/../../../Minecraft [server-MC]/Plugin 1.16/plugins</output-path>
+    <output-path>$PROJECT_DIR$/../../..</output-path>
     <root id="archive" name="hHomes.jar">
       <element id="module-output" name="hHomes" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/hakan/MessageAPI/1.0.0/MessageAPI-1.0.0.jar" path-in-jar="/" />

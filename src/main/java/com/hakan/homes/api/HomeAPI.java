@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +30,13 @@ public class HomeAPI {
     public PlayerData loadPlayerData(String playerName) {
         Map<String, Home> homes = new HashMap<>();
 
-        File file = new File(HomePlugin.getInstance().getDataFolder() + "/data/" + playerName + ".yml");
+        new File(HomePlugin.getInstance().getDataFolder() + "/data/").mkdirs();
+        File file = new File(HomePlugin.getInstance().getDataFolder() + "/data/", playerName + ".yml");
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Yaml data = new Yaml(file);
 
         for (String key : data.getConfigurationSection("").getKeys(false)) {
