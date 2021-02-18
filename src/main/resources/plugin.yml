@@ -1,6 +1,6 @@
 name: 'hHomes'
 author: 'Hakan Kargın'
-version: 1.0.1
+version: 1.0.2
 main: com.hakan.homes.HomePlugin
 commands:
   home:

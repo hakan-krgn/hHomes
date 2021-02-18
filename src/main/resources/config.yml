@@ -40,6 +40,7 @@ settings:
 messages:
   there-is-home-this-name: '&cThere is a home this name.'
   maximum-purchaseable-home: '&cYour home count can not over %count%.'
+  sethome-money: '&cYou don''t have enough money to buy a house'
 
 gui-main:
   title: 'Home System'

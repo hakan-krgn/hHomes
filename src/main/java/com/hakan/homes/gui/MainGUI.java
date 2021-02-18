@@ -6,6 +6,7 @@ import com.hakan.homes.api.HomeAPI;
 import com.hakan.homes.utils.HomeSettings;
 import com.hakan.homes.utils.PlaySound;
 import com.hakan.homes.utils.Utils;
+import com.hakan.homes.utils.VaultHook;
 import com.hakan.icreator.utils.fyaml.YamlItem;
 import com.hakan.invapi.api.InventoryAPI;
 import com.hakan.invapi.inventory.invs.HInventory;
@@ -62,6 +63,10 @@ public class MainGUI {
                     } else if (playerData.getHomeList().size() >= maxHouse) {
                         PlaySound.playVillagerNo(player);
                         player.sendMessage(Utils.getText(config, "messages.maximum-purchaseable-home").replace("%count%", maxHouse + ""));
+                        return AnvilGUI.Response.close();
+                    } else if (VaultHook.getEconomy().getBalance(player) < HomeSettings.getSethomeMoney(player)) {
+                        PlaySound.playVillagerNo(player);
+                        player.sendMessage(Utils.getText(config, "messages.sethome-money"));
                         return AnvilGUI.Response.close();
                     }
                 }
