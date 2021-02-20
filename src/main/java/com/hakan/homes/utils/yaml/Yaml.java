@@ -11,6 +11,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class Yaml {
@@ -22,22 +23,21 @@ public class Yaml {
     public Yaml(String fileURL, BufferedReader bufferedReader) {
         this.fileURL = fileURL;
         this.file = new File(fileURL);
-        boolean fileExist = this.file.exists();
-        createFile(fileURL);
-        if (!fileExist && bufferedReader != null) {
-            try {
-                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.file)));
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    System.out.println(line);
-                    bw.write(line);
-                    bw.newLine();
+        if (!file.exists()) {
+            createFile(fileURL);
+            if (bufferedReader != null) {
+                try {
+                    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.file)));
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        bw.write(line);
+                        bw.newLine();
+                    }
+                    bufferedReader.close();
+                    bw.close();
+                } catch (IOException e) {
+                    System.out.println("An internal error");
                 }
-
-                bufferedReader.close();
-                bw.close();
-            } catch (IOException e) {
-                System.out.println("An internal error");
             }
         }
         this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
@@ -52,38 +52,21 @@ public class Yaml {
     }
 
     public Yaml(String fileURL) {
-        this(fileURL, (BufferedReader) null);
+        this(fileURL, (InputStream) null);
     }
 
-    public Yaml(File file) {
-        this(file.getPath(), (BufferedReader) null);
-    }
+    private void createFile(String url) {
+        if (new File(url).exists()) return;
+        url = url.replace("/", "\\");
+        String[] sp = url.split(Pattern.quote("\\"));
+        String folder = url.substring(0, url.length() - sp[sp.length - 1].length());
 
-    public void createFile(String url, String fileName) {
-        File file = new File(url);
-        file.mkdirs();
-        File file2 = new File(url + "/" + fileName);
         try {
-            file2.createNewFile();
-        } catch (IOException e) {
-            System.out.println("An internal error");
+            new File(folder).mkdirs();
+            new File(url).createNewFile();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
         }
-    }
-
-    public void createFile(String url) {
-        StringBuilder stringBuilder = new StringBuilder();
-        String[] sp = url.split("/");
-        int m = 0;
-        for (String value : sp) {
-            m++;
-            stringBuilder.append(value);
-            if (sp.length == m + 1) {
-                break;
-            } else {
-                stringBuilder.append("/");
-            }
-        }
-        createFile(stringBuilder.toString(), sp[sp.length - 1]);
     }
 
     public void reload() {
