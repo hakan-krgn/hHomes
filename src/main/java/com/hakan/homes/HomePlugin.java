@@ -7,7 +7,7 @@ import com.hakan.homes.utils.Metrics;
 import com.hakan.homes.utils.VaultHook;
 import com.hakan.homes.utils.yaml.Yaml;
 import com.hakan.icreator.ItemCreator;
-import com.hakan.invapi.api.InventoryAPI;
+import com.hakan.invapi.InventoryAPI;
 import com.hakan.messageplugin.api.MessageAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -41,7 +41,7 @@ public class HomePlugin extends JavaPlugin {
 
         new Metrics(this, 10266);
         new VaultHook().setupEconomy().setupPermissions();
-        InventoryAPI.setupInvs(this);
+        InventoryAPI.setup(this);
         MessageAPI.setup(this);
         ItemCreator.setup(this, "type", "name", "lore", "amount", "datavalue", "glow", "nbt", "slot");
     }

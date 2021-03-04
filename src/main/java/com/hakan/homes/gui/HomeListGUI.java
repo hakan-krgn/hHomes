@@ -8,7 +8,7 @@ import com.hakan.homes.utils.PlaySound;
 import com.hakan.homes.utils.Utils;
 import com.hakan.homes.utils.yaml.Yaml;
 import com.hakan.icreator.utils.fyaml.YamlItem;
-import com.hakan.invapi.api.InventoryAPI;
+import com.hakan.invapi.InventoryAPI;
 import com.hakan.invapi.inventory.invs.HInventory;
 import com.hakan.invapi.inventory.invs.Pagination;
 import com.hakan.invapi.inventory.item.ClickableItem;

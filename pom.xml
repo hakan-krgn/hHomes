@@ -22,9 +22,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.hakan</groupId>
-            <artifactId>InventoryAPI</artifactId>
-            <version>1.0.0</version>
+            <groupId>com.github.hakan-krgn</groupId>
+            <artifactId>HInventory</artifactId>
+            <version>1.0.4</version>
         </dependency>
 
         <dependency>
