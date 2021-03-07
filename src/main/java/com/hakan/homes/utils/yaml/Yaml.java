@@ -44,7 +44,7 @@ public class Yaml {
     }
 
     public Yaml(String fileURL, InputStream inputStream) {
-        this(fileURL, new BufferedReader(new InputStreamReader(inputStream)));
+        this(fileURL, inputStream != null ? new BufferedReader(new InputStreamReader(inputStream)) : null);
     }
 
     public Yaml(String fileURL, String resourceName) {

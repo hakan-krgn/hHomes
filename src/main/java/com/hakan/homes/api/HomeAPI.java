@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class HomeAPI {
     public PlayerData loadPlayerData(String playerName) {
         Map<String, Home> homes = new HashMap<>();
 
-        Yaml data = new Yaml(HomePlugin.getInstance().getDataFolder() + "/data/", playerName + ".yml");
+        Yaml data = new Yaml(HomePlugin.getInstance().getDataFolder() + "/data/" + playerName + ".yml");
 
         for (String key : data.getConfigurationSection("").getKeys(false)) {
             String locationAsString = data.getString(key + ".location");
@@ -48,9 +49,10 @@ public class HomeAPI {
         return playerData != null ? playerData : loadPlayerData(playerName);
     }
 
+    @Nullable
     public Map<String, Home> getPlayerHomes(String playerName) {
         PlayerData playerData = getPlayerData(playerName);
-        return playerData != null ? playerData.getHomeList() : null;
+        return playerData != null ? playerData.getHomeList() : new HashMap<>();
     }
 
     public Home getHome(String playerName, String homeName) {

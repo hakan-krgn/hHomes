@@ -30,6 +30,8 @@ public class MainGUI {
         HInventory hInventory = InventoryAPI.getInventoryManager().setTitle(config.getString("gui-main.title")).setSize(config.getInt("gui-main.size")).setInventoryType(InventoryType.CHEST).setCloseable(true).setId("homegui_" + player.getName()).setClickable(true).create();
         hInventory.guiFill(new ItemStack(Material.AIR));
 
+        PlayerData playerData = HomeAPI.getInstance().getPlayerData(player.getName());
+
         YamlItem homeListItem = new YamlItem(HomePlugin.getInstance(), config, "gui-main.items.home-list-item");
         hInventory.setItem(homeListItem.getSlot(), ClickableItem.of(homeListItem.complete(), (event) -> {
             PlaySound.playButtonClick(player);
@@ -51,9 +53,6 @@ public class MainGUI {
                     }
                 }.runTaskLater(HomePlugin.getInstance(), 2);
             }).onComplete((player1, text) -> {
-
-                PlayerData playerData = HomeAPI.getInstance().getPlayerData(player.getName());
-
                 if (playerData != null) {
                     int maxHouse = HomeSettings.getMaxHome(player);
                     if (playerData.hasHome(text)) {
