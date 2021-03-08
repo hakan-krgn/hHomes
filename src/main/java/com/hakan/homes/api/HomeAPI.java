@@ -8,12 +8,12 @@ import com.hakan.homes.utils.LocationSerializer;
 import com.hakan.homes.utils.Utils;
 import com.hakan.homes.utils.yaml.Yaml;
 import com.hakan.messageplugin.api.MessageAPI;
+import com.sun.istack.internal.Nullable;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 

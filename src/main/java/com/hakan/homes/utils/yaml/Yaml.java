@@ -37,6 +37,7 @@ public class Yaml {
                     bw.close();
                 } catch (IOException e) {
                     System.out.println("An internal error");
+                    e.printStackTrace();
                 }
             }
         }
