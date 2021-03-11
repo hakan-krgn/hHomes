@@ -3,6 +3,7 @@ package com.hakan.homes.cmd;
 import com.hakan.homes.HomePlugin;
 import com.hakan.homes.gui.MainGUI;
 import com.hakan.homes.utils.HomeSettings;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,6 +26,7 @@ public class HomeCommand implements CommandExecutor {
                 if (args[0].equals("reload")) {
                     if (commandSender.isOp()) {
                         HomePlugin.config.reload();
+                        HomeSettings.serverVersion = Bukkit.getServer().getClass().getName().split("\\.")[3];
                         commandSender.sendMessage("§aHome system reloaded");
                     }
                 }
