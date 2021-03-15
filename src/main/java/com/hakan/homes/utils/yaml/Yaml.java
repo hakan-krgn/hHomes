@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings({"unused"})
 public class Yaml {
 
     private final String fileURL;
@@ -63,8 +63,8 @@ public class Yaml {
         String folder = url.substring(0, url.length() - sp[sp.length - 1].length());
 
         try {
-            new File(folder).mkdirs();
-            new File(url).createNewFile();
+            new File(folder.replace("\\", "/")).mkdirs();
+            new File(url.replace("\\", "/")).createNewFile();
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
@@ -242,6 +242,15 @@ public class Yaml {
 
     public boolean isLocation(String path) {
         return getLocation(path) != null;
+    }
+
+    public List<Location> getLocationList(String path) {
+        List<Location> locations = new ArrayList<>();
+        if (!this.fileConfiguration.isList(path)) return locations;
+        for (Object locs : this.fileConfiguration.getList(path)) {
+            locations.add((Location) locs);
+        }
+        return locations;
     }
 
     public ItemStack getItemStack(String path) {
