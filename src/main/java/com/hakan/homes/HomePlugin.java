@@ -9,6 +9,7 @@ import com.hakan.homes.utils.yaml.Yaml;
 import com.hakan.icreator.ItemCreator;
 import com.hakan.invapi.InventoryAPI;
 import com.hakan.messageplugin.api.MessageAPI;
+import com.hakan.signapi.SignAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,16 +34,17 @@ public class HomePlugin extends JavaPlugin {
         Bukkit.getLogger().info("                                ");
         Bukkit.getLogger().info("--------------------------------");
 
+        new Metrics(this, 10266);
+        new VaultHook().setupEconomy().setupPermissions();
+        InventoryAPI.setup(this);
+        MessageAPI.setup(this);
+        SignAPI.setup(this);
+        ItemCreator.setup(this, "type", "name", "lore", "amount", "datavalue", "glow", "nbt", "slot");
+
         Bukkit.getPluginManager().registerEvents(new PluginDisableListener(), this);
         getCommand("home").setExecutor(new HomeCommand());
 
         HomeSettings.serverVersion = Bukkit.getServer().getClass().getName().split("\\.")[3];
         config = new Yaml(getDataFolder() + "/config.yml", "config.yml");
-
-        new Metrics(this, 10266);
-        new VaultHook().setupEconomy().setupPermissions();
-        InventoryAPI.setup(this);
-        MessageAPI.setup(this);
-        ItemCreator.setup(this, "type", "name", "lore", "amount", "datavalue", "glow", "nbt", "slot");
     }
 }

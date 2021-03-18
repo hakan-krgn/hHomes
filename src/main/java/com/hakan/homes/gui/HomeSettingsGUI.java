@@ -4,6 +4,7 @@ import com.hakan.homes.Home;
 import com.hakan.homes.HomePlugin;
 import com.hakan.homes.PlayerData;
 import com.hakan.homes.api.HomeAPI;
+import com.hakan.homes.api.customevent.HomeDeleteEvent;
 import com.hakan.homes.utils.PlaySound;
 import com.hakan.homes.utils.Utils;
 import com.hakan.icreator.utils.fyaml.YamlItem;
@@ -11,14 +12,15 @@ import com.hakan.invapi.InventoryAPI;
 import com.hakan.invapi.inventory.invs.HInventory;
 import com.hakan.invapi.inventory.item.ClickableItem;
 import com.hakan.messageplugin.api.MessageAPI;
-import net.wesjd.anvilgui.AnvilGUI;
+import com.hakan.signapi.HSign;
+import com.hakan.signapi.SignAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class HomeSettingsGUI {
 
@@ -32,41 +34,43 @@ public class HomeSettingsGUI {
         hInventory.setItem(renameItem.getSlot(), ClickableItem.of(renameItem.complete(), (event) -> {
             PlaySound.playButtonClick(player);
 
-            int playerLevel = player.getLevel();
-            float playerExp = player.getExp();
-            new AnvilGUI.Builder().onClose(player1 -> {
-                new BukkitRunnable() {
-                    public void run() {
-                        player1.setLevel(playerLevel);
-                        player1.setExp(playerExp);
-                    }
-                }.runTaskLater(HomePlugin.getInstance(), 2);
-            }).onComplete((player1, text) -> {
+            HSign hSign = SignAPI.getSignManager().setType(Material.valueOf("SIGN_POST")).setLines(config.getStringList("settings.rename-home-lines")).create();
+            hSign.open(player, new HSign.SignCallback() {
+                @Override
+                public void whenOpened(String[] strings) {
 
-                PlayerData playerData = HomeAPI.getInstance().getPlayerData(player.getName());
-
-                if (playerData != null) {
-                    if (playerData.hasHome(text)) {
-                        PlaySound.playVillagerNo(player);
-                        player.sendMessage(Utils.getText(config, "messages.there-is-home-this-name"));
-                        return AnvilGUI.Response.close();
-                    }
                 }
 
-                PlaySound.playExperienceOrb(player);
+                @Override
+                public void whenClosed(String[] strings) {
+                    String homeName = strings[0];
 
-                HomeAPI.getInstance().deleteHome(player.getName(), home);
-                home.setHomeName(text);
-                playerData.setHome(text, home);
+                    if (homeName.length() < 3) {
+                        PlaySound.playVillagerNo(player);
+                        open(player, home);
+                        return;
+                    }
 
-                String title = Utils.getText(config, "settings.home-rename-title").replace("%name%", text);
-                String subtitle = Utils.getText(config, "settings.home-rename-subtitle").replace("%name%", text);
-                MessageAPI.getTitleAPI().getTitleManager().setTitle(title).setSubtitle(subtitle).setFadeIn(5).setStay(80).setFadeOut(5).create().send(player);
+                    PlayerData playerData = HomeAPI.getInstance().getPlayerData(player.getName());
+                    if (playerData != null) {
+                        if (playerData.hasHome(homeName)) {
+                            PlaySound.playVillagerNo(player);
+                            player.sendMessage(Utils.getText(config, "messages.there-is-home-this-name"));
+                            return;
+                        }
+                    }
 
-                return AnvilGUI.Response.close();
+                    PlaySound.playExperienceOrb(player);
 
-            }).text(home.getHomeName()).itemLeft(new ItemStack(Material.PAPER)).title("§aHome Rename").plugin(HomePlugin.getInstance()).open(player);
+                    HomeAPI.getInstance().deleteHome(player.getName(), home);
+                    home.setHomeName(homeName);
+                    playerData.setHome(homeName, home);
 
+                    String title = Utils.getText(config, "settings.home-rename-title").replace("%name%", homeName);
+                    String subtitle = Utils.getText(config, "settings.home-rename-subtitle").replace("%name%", homeName);
+                    MessageAPI.getTitleAPI().getTitleManager().setTitle(title).setSubtitle(subtitle).setFadeIn(5).setStay(80).setFadeOut(5).create().send(player);
+                }
+            });
         }));
 
         YamlItem transportItem = new YamlItem(HomePlugin.getInstance(), config, "gui-home-settings.items.transport");
@@ -86,6 +90,12 @@ public class HomeSettingsGUI {
 
         YamlItem deleteItem = new YamlItem(HomePlugin.getInstance(), config, "gui-home-settings.items.delete");
         hInventory.setItem(deleteItem.getSlot(), ClickableItem.of(deleteItem.complete(), (event) -> {
+            HomeDeleteEvent homeDeleteEvent = new HomeDeleteEvent(player, home);
+            Bukkit.getPluginManager().callEvent(homeDeleteEvent);
+            if (homeDeleteEvent.isCancelled()) {
+                return;
+            }
+
             PlaySound.playButtonClick(player);
             hInventory.close(player);
 

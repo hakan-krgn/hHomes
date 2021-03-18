@@ -1,8 +1,10 @@
 package com.hakan.homes.gui;
 
+import com.hakan.homes.Home;
 import com.hakan.homes.HomePlugin;
 import com.hakan.homes.PlayerData;
 import com.hakan.homes.api.HomeAPI;
+import com.hakan.homes.api.customevent.HomeCreateEvent;
 import com.hakan.homes.utils.HomeSettings;
 import com.hakan.homes.utils.PlaySound;
 import com.hakan.homes.utils.Utils;
@@ -12,15 +14,15 @@ import com.hakan.invapi.InventoryAPI;
 import com.hakan.invapi.inventory.invs.HInventory;
 import com.hakan.invapi.inventory.item.ClickableItem;
 import com.hakan.messageplugin.api.MessageAPI;
-import net.wesjd.anvilgui.AnvilGUI;
-import org.bukkit.ChatColor;
+import com.hakan.signapi.HSign;
+import com.hakan.signapi.SignAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class MainGUI {
 
@@ -42,46 +44,57 @@ public class MainGUI {
         hInventory.setItem(homeCreateItem.getSlot(), ClickableItem.of(homeCreateItem.complete(), (event) -> {
             PlaySound.playButtonClick(player);
 
-            YamlItem houseClickItem = new YamlItem(HomePlugin.getInstance(), config, "gui-create-home.items.house-item");
-            int playerLevel = player.getLevel();
-            float playerExp = player.getExp();
-            new AnvilGUI.Builder().onClose(player1 -> {
-                new BukkitRunnable() {
-                    public void run() {
-                        player1.setLevel(playerLevel);
-                        player1.setExp(playerExp);
-                    }
-                }.runTaskLater(HomePlugin.getInstance(), 2);
-            }).onComplete((player1, text) -> {
-                if (playerData != null) {
-                    int maxHouse = HomeSettings.getMaxHome(player);
-                    if (playerData.hasHome(text)) {
-                        PlaySound.playVillagerNo(player);
-                        player.sendMessage(Utils.getText(config, "messages.there-is-home-this-name"));
-                        return AnvilGUI.Response.close();
-                    } else if (playerData.getHomeList().size() >= maxHouse) {
-                        PlaySound.playVillagerNo(player);
-                        player.sendMessage(Utils.getText(config, "messages.maximum-purchaseable-home").replace("%count%", maxHouse + ""));
-                        return AnvilGUI.Response.close();
-                    } else if (VaultHook.getEconomy().getBalance(player) < HomeSettings.getSethomeMoney(player)) {
-                        PlaySound.playVillagerNo(player);
-                        player.sendMessage(Utils.getText(config, "messages.sethome-money"));
-                        return AnvilGUI.Response.close();
-                    }
+            HSign hSign = SignAPI.getSignManager().setType(Material.valueOf("SIGN_POST")).setLines(config.getStringList("settings.create-home-lines")).create();
+            hSign.open(player, new HSign.SignCallback() {
+                @Override
+                public void whenOpened(String[] strings) {
                 }
 
-                PlaySound.playExperienceOrb(player);
-                Location location = player.getLocation();
+                @Override
+                public void whenClosed(String[] strings) {
+                    String homeName = strings[0];
 
-                HomeAPI.getInstance().setHome(player.getName(), location, text);
+                    Location location = player.getLocation();
 
-                String title = Utils.getText(config, "settings.home-set-title").replace("%x%", location.getBlockX() + "").replace("%y%", location.getBlockY() + "").replace("%z%", location.getBlockZ() + "").replace("%name%", text);
-                String subtitle = Utils.getText(config, "settings.home-set-subtitle").replace("%x%", location.getBlockX() + "").replace("%y%", location.getBlockY() + "").replace("%z%", location.getBlockZ() + "").replace("%name%", text);
-                MessageAPI.getTitleAPI().getTitleManager().setTitle(title).setSubtitle(subtitle).setFadeIn(5).setStay(80).setFadeOut(5).create().send(player);
+                    Home home = new Home(player.getName(), location, homeName);
+                    HomeCreateEvent homeCreateEvent = new HomeCreateEvent(player, home);
+                    Bukkit.getPluginManager().callEvent(homeCreateEvent);
+                    if (homeCreateEvent.isCancelled()) {
+                        return;
+                    }
 
-                return AnvilGUI.Response.close();
+                    if (homeName.length() < 3) {
+                        PlaySound.playVillagerNo(player);
+                        open(player);
+                        return;
+                    }
 
-            }).text(ChatColor.translateAlternateColorCodes('&', houseClickItem.getName())).itemLeft(houseClickItem.complete()).title(ChatColor.translateAlternateColorCodes('&', config.getString("gui-create-home.title"))).plugin(HomePlugin.getInstance()).open(player);
+                    if (playerData != null) {
+                        int maxHouse = HomeSettings.getMaxHome(player);
+                        if (playerData.hasHome(homeName)) {
+                            PlaySound.playVillagerNo(player);
+                            player.sendMessage(Utils.getText(config, "messages.there-is-home-this-name"));
+                            return;
+                        } else if (playerData.getHomeList().size() >= maxHouse) {
+                            PlaySound.playVillagerNo(player);
+                            player.sendMessage(Utils.getText(config, "messages.maximum-purchaseable-home").replace("%count%", maxHouse + ""));
+                            return;
+                        } else if (VaultHook.getEconomy().getBalance(player) < HomeSettings.getSethomeMoney(player)) {
+                            PlaySound.playVillagerNo(player);
+                            player.sendMessage(Utils.getText(config, "messages.sethome-money"));
+                            return;
+                        }
+                    }
+
+                    PlaySound.playExperienceOrb(player);
+
+                    HomeAPI.getInstance().setHome(player.getName(), home);
+
+                    String title = Utils.getText(config, "settings.home-set-title").replace("%x%", location.getBlockX() + "").replace("%y%", location.getBlockY() + "").replace("%z%", location.getBlockZ() + "").replace("%name%", homeName);
+                    String subtitle = Utils.getText(config, "settings.home-set-subtitle").replace("%x%", location.getBlockX() + "").replace("%y%", location.getBlockY() + "").replace("%z%", location.getBlockZ() + "").replace("%name%", homeName);
+                    MessageAPI.getTitleAPI().getTitleManager().setTitle(title).setSubtitle(subtitle).setFadeIn(5).setStay(80).setFadeOut(5).create().send(player);
+                }
+            });
         }));
 
         hInventory.open(player);

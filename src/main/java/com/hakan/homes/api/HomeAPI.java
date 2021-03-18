@@ -60,12 +60,16 @@ public class HomeAPI {
         return playerData != null ? playerData.getHomeList().get(homeName) : null;
     }
 
-    public void setHome(String playerName, Location location, String homeName) {
-        Home home = new Home(playerName, location, homeName);
+    public void setHome(String playerName, Home home) {
         PlayerData playerData = getPlayerData(playerName);
         if (playerData != null) {
             playerData.addHome(home);
         }
+    }
+
+    public void setHome(String playerName, Location location, String homeName) {
+        Home home = new Home(playerName, location, homeName);
+        setHome(playerName, home);
     }
 
     public void deleteHome(String playerName, Home home) {
