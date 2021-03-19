@@ -5,8 +5,8 @@
       <element id="module-output" name="hHomes" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/hakan/MessageAPI/1.0.0/MessageAPI-1.0.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/hakan/ItemBuilder/1.0.0/ItemBuilder-1.0.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/net/wesjd/anvilgui/1.4.0-SNAPSHOT/anvilgui-1.4.0-SNAPSHOT.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/github/hakan-krgn/HInventory/1.0.5/HInventory-1.0.5.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/hakan/HSignAPI/1.0.0/HSignAPI-1.0.0.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

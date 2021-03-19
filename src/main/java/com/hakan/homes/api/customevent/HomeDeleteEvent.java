@@ -1,6 +1,7 @@
 package com.hakan.homes.api.customevent;
 
 import com.hakan.homes.Home;
+import com.sun.istack.internal.NotNull;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -8,6 +9,7 @@ import org.bukkit.event.HandlerList;
 
 public class HomeDeleteEvent extends Event implements Cancellable {
 
+    private static final HandlerList handlers = new HandlerList();
     private final Player player;
     private final Home home;
     private boolean cancel;
@@ -17,9 +19,14 @@ public class HomeDeleteEvent extends Event implements Cancellable {
         this.home = home;
     }
 
-    @Override
+    @NotNull
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+    @NotNull
     public HandlerList getHandlers() {
-        return null;
+        return handlers;
     }
 
     public Player getPlayer() {
