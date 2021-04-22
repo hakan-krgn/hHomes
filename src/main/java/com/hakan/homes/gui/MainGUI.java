@@ -69,6 +69,7 @@ public class MainGUI {
                         return;
                     }
 
+                    double money = HomeSettings.getSethomeMoney(player);
                     if (playerData != null) {
                         int maxHouse = HomeSettings.getMaxHome(player);
                         if (playerData.hasHome(homeName)) {
@@ -79,7 +80,7 @@ public class MainGUI {
                             PlaySound.playVillagerNo(player);
                             player.sendMessage(Utils.getText(config, "messages.maximum-purchaseable-home").replace("%count%", maxHouse + ""));
                             return;
-                        } else if (VaultHook.getEconomy().getBalance(player) < HomeSettings.getSethomeMoney(player)) {
+                        } else if (VaultHook.getEconomy().getBalance(player) < money) {
                             PlaySound.playVillagerNo(player);
                             player.sendMessage(Utils.getText(config, "messages.sethome-money"));
                             return;
@@ -88,6 +89,7 @@ public class MainGUI {
 
                     PlaySound.playExperienceOrb(player);
 
+                    VaultHook.getEconomy().withdrawPlayer(player, money);
                     HomeAPI.getInstance().setHome(player.getName(), home);
 
                     String title = Utils.getText(config, "settings.home-set-title").replace("%x%", location.getBlockX() + "").replace("%y%", location.getBlockY() + "").replace("%z%", location.getBlockZ() + "").replace("%name%", homeName);
