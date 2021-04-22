@@ -21,6 +21,10 @@ settings:
   home-transport-title: '&bHome Transported'
   home-transport-subtitle: '&7Your location of home changed to &3%x%&7, &3%y%&7, &3%z%'
 
+  disabled-worlds:
+    - 'spawn'
+    - 'arena'
+
   create-home-lines:
     - ''
     - '^^^^^^^^^^^^^^^'
@@ -33,26 +37,12 @@ settings:
     - 'Please type new'
     - 'name of your home'
 
-  teleport-times:
-    default: 5
-    vip: 3
-    vip+: 2
-    others: 5
-  max-home:
-    default: 1
-    vip: 2
-    vip+: 3
-    others: 1
-  sethome-money:
-    default: 5000
-    vip: 2000
-    vip+: 100
-    others: 5000
-
 messages:
   there-is-home-this-name: '&cThere is a home this name.'
   maximum-purchaseable-home: '&cYour home count can not over %count%.'
   sethome-money: '&cYou don''t have enough money to buy a house'
+  disabled-world: '&cYou can''t sethome here!'
+  home-name: 'The length of the home name cannot be smaller than 3 characters.'
 
 gui-main:
   title: 'Home System'

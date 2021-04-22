@@ -93,7 +93,7 @@ public class HomeAPI {
 
         FileConfiguration config = HomePlugin.config.getFileConfiguration();
 
-        int teleportTime = HomeSettings.getTeleportTime(player);
+        long teleportTime = HomeSettings.getTeleportTime(player);
 
         int x = player.getLocation().getBlockX();
         int y = player.getLocation().getBlockY();

@@ -24,6 +24,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 public class MainGUI {
 
     public static void open(Player player) {
@@ -43,6 +45,12 @@ public class MainGUI {
         YamlItem homeCreateItem = new YamlItem(HomePlugin.getInstance(), config, "gui-main.items.home-create-item");
         hInventory.setItem(homeCreateItem.getSlot(), ClickableItem.of(homeCreateItem.complete(), (event) -> {
             PlaySound.playButtonClick(player);
+
+            List<String> world = config.getStringList("settings.disabled-worlds");
+            if (world.contains(player.getWorld().getName())) {
+                player.sendMessage(Utils.getText(config, "messages.disabled-world"));
+                return;
+            }
 
             HSign hSign = SignAPI.getSignManager().setType(Material.valueOf("SIGN_POST")).setLines(config.getStringList("settings.create-home-lines")).create();
             hSign.open(player, new HSign.SignCallback() {
@@ -64,6 +72,7 @@ public class MainGUI {
                     }
 
                     if (homeName.length() < 3) {
+                        player.sendMessage("messages.home-name");
                         PlaySound.playVillagerNo(player);
                         open(player);
                         return;
@@ -71,7 +80,7 @@ public class MainGUI {
 
                     double money = HomeSettings.getSethomeMoney(player);
                     if (playerData != null) {
-                        int maxHouse = HomeSettings.getMaxHome(player);
+                        long maxHouse = HomeSettings.getMaxHome(player);
                         if (playerData.hasHome(homeName)) {
                             PlaySound.playVillagerNo(player);
                             player.sendMessage(Utils.getText(config, "messages.there-is-home-this-name"));
