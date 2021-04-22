@@ -46,6 +46,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.hakan</groupId>
+            <artifactId>hClaims</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.milkbowl</groupId>
             <artifactId>vault</artifactId>
             <version>1.7.3</version>
