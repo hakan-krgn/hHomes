@@ -72,7 +72,7 @@ public class MainGUI {
                     }
 
                     if (homeName.length() < 3) {
-                        player.sendMessage("messages.home-name");
+                        player.sendMessage(Utils.getText(config, "messages.home-name"));
                         PlaySound.playVillagerNo(player);
                         open(player);
                         return;
