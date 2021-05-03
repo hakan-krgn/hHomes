@@ -22,6 +22,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 public class HomeSettingsGUI {
 
     public static void open(Player player, Home home) {
@@ -75,6 +77,12 @@ public class HomeSettingsGUI {
 
         YamlItem transportItem = new YamlItem(HomePlugin.getInstance(), config, "gui-home-settings.items.transport");
         hInventory.setItem(transportItem.getSlot(), ClickableItem.of(transportItem.complete(), (event) -> {
+
+            List<String> world = config.getStringList("settings.disabled-worlds");
+            if (world.contains(player.getWorld().getName())) {
+                player.sendMessage(Utils.getText(config, "messages.disabled-world"));
+                return;
+            }
 
             PlaySound.playButtonClick(player);
             hInventory.close(player);
